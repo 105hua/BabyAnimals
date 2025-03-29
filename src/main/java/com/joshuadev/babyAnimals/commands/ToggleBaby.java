@@ -1,6 +1,7 @@
 /* Licensed under GNU General Public License v3.0 */
 package com.joshuadev.babyAnimals.commands;
 
+import com.joshuadev.babyAnimals.BabyAnimals;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -9,6 +10,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Turtle;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.incendo.cloud.annotations.Command;
 import org.incendo.cloud.annotations.CommandDescription;
 import org.incendo.cloud.annotations.Permission;
@@ -43,6 +47,13 @@ public class ToggleBaby {
         if (animal.getAge() == 0) {
             animal.setAge(-100);
             animal.setAgeLock(true);
+            if (animal instanceof Turtle) { // Tag so turtle does not drop multiple scutes.
+                PersistentDataContainer turtleContainer = animal.getPersistentDataContainer();
+                if (!turtleContainer.has(BabyAnimals.HAS_GROWN_KEY, PersistentDataType.BOOLEAN)) {
+                    turtleContainer.set(
+                            BabyAnimals.HAS_GROWN_KEY, PersistentDataType.BOOLEAN, true);
+                }
+            }
         } else {
             animal.setAge(0);
             animal.setAgeLock(false);
