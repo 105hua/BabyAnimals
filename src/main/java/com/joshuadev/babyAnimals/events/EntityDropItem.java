@@ -11,7 +11,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class EntityDropItem implements Listener {
     @EventHandler
-    public void onEntityBreed(EntityDropItemEvent event) {
+    public void onEntityDropItem(EntityDropItemEvent event) {
         if (!(event.getEntity() instanceof Turtle turtle)) return;
         PersistentDataContainer turtleContainer = turtle.getPersistentDataContainer();
         if (turtleContainer.has(BabyAnimals.HAS_GROWN_KEY, PersistentDataType.BOOLEAN)) {
